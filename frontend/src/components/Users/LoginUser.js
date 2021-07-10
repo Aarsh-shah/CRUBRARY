@@ -1,37 +1,40 @@
 import React from 'react';
 import {useState,useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import {userLoginAct} from '../../Redux/actions/users/userActions';
 import ErrorMessage from '../ErrorMessage';
 const Login = ({history}) => {
   const [email, setMail] = useState('');
   const [password, setPass] = useState('');
-
+  const [redirectflag,setredirect]=useState(false);
   const dispatch = useDispatch();
 
   //Grab pieces of data from our store that we care about
 
   const state = useSelector(state => {
-    return state.currentUser;
+    return state;
   });
-
-  const { loading, userData, error } = state;
+  const [profile,setProfifle]=useState(state.userProf);
+  const { loading, userData, error } = state.currentUser;
 
   //Submit handler
   const LoginHandle = e => {
     e.preventDefault();
-    console.log(email, password);
+
     dispatch(userLoginAct(email, password));
   //Redirect
+  
 
-
-  };
-  useEffect(() => {
-    if(userData)
-    history.push('/profile');
-  },[state]);
+};
+if(userData)
+{
  
-
+     return (
+       <Redirect to='/profile' />
+     );
+   
+     }
     return (
     <div className='row container-height'>
       <div className='col-lg-6 col-md-6 m-auto'>
@@ -72,7 +75,11 @@ const Login = ({history}) => {
         </div>
       </div>
     </div>
+  
+ 
   );
+
+  
 };
 
 export  {Login};

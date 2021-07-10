@@ -28,8 +28,8 @@ const books=bookList;
               <tr>
                 <th scope='col'>Author</th>
                 <th scope='col'>Book Name</th>
-                <th scope='col'>Action</th>
-                <th scope='col'>Action</th>
+                <th scope='col'>Category</th>
+
               </tr>
             </thead>
             <tbody>
@@ -45,22 +45,7 @@ const books=bookList;
                           <tr className='table-dark'>
                             <th className="text-success " scope='row'>{book.title}</th>
                             <td className ="text-success">{book.author}</td>
-                            <td>
-                              <i
-                                className='fas fa-trash '
-                                style={{
-                                  color: 'red',
-                                  cursor: 'progress',
-                                }}></i>
-                            </td>
-                            <td>
-                              <i
-                                className='far fa-edit'
-                                style={{
-                                  color: 'yellow',
-                                  cursor: 'progress',
-                                }}></i>
-                            </td>
+                            <td className ="text-success">{book.category}</td>
                           </tr>
                           {/* End of map thr */}
                         </>

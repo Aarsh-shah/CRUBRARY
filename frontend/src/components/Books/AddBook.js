@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import { Redirect } from 'react-router-dom';
 import { createBookAct } from '../../Redux/actions/books/BA';
 import { useHistory } from 'react-router-dom';
 
@@ -11,26 +11,32 @@ const AddBook = () => {
 
   //dispatch
   const dispatch = useDispatch();
-  const history=useHistory();
-  //Handle form submit
-  const state= useSelector(state => state.bookCreated);
-console.log(state);
-const data = {
-  title,
-  author,
-  category,
-}; 
-const {loading,error,book} = state;
  
+  const state =useSelector(state=> state);
+  const {currentUser, bookCreated} = state;
+  // console.log(userData);
   const HandleFormSubmit = (e) => 
   {
     e.preventDefault();
+    const data = {
+      title,
+      author,
+      category,
+      madeBy: currentUser.userData.data._id,
+    }; 
+    
     dispatch(createBookAct(data)); 
-    // window.location.href= "localhost:3000/books";
-    history.push('/books');
+    
+  
   
   };
-  
+if(bookCreated.book)
+{
+  return (
+    <Redirect to='/books' />
+  );
+}
+
 
   return (
     <div className='row container-height'>

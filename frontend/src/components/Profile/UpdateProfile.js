@@ -1,36 +1,44 @@
 import React,{useState,useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
-import {userRegisterAct} from '../../Redux/actions/users/userActions';
+import {userRegisterAct,userProfileUpdateAct} from '../../Redux/actions/users/userActions';
 import ErrorMessage from '../ErrorMessage';
+import {Redirect} from 'react-router-dom';
+const UserProfile =() => {
 
-const RegisterUser = ({history}) => {
+    
+    const updatedUserProf = useSelector(state => state.updatedUserProf);
+    const {error} = updatedUserProf;
    const userObject = useSelector(state => state.currentUser);
    console.log(userObject);
-   const { userData,error } = userObject;
-   useEffect(() => {
-    if (userData) {
-      history.push('/books');
-    }
-  }, [userObject]);
+   const { userData } = userObject;
 
-    const [name,setname]=useState('');
-    const [email,setemail]=useState('');
+    console.log(error);
+    const [name,setname]=useState(userData.data.name);
+    const [email,setemail]=useState(userData.data.email);
     const [password,setpassword]=useState('');
     const dispatch=useDispatch();
 const submitHandle = (e) => {
     e.preventDefault();
-    dispatch(userRegisterAct(name,email,password));
+    dispatch(userProfileUpdateAct(name,email,password));
+    
+
 
 }
+if(updatedUserProf.updatedUser)
+    {
+        return (
+            <Redirect to='/success' />
+        )
+    }
     return (
     <div className='row container-height'>
       <div className='col-lg-6 col-md-6 m-auto'>
         <div className='container'>
-          <h1 className='text-center'>Register User Here</h1>
+          <h1 className='text-center text-success'>Update My INFO</h1>
           {error && <ErrorMessage>{error}</ErrorMessage>}
           <form onSubmit={submitHandle}>
             <fieldset>
-              <div className='form-group'>
+              <div className='form-group text-success'>
               <br></br>
                 <br></br>
                 <label htmlFor='exampleInputEmail1'>Name</label><br></br>
@@ -46,7 +54,7 @@ const submitHandle = (e) => {
                 />
                 
               </div>
-              <div className='form-group'>
+              <div className='form-group text-success'>
               <br></br>
                 <br></br>
                 <label htmlFor='exampleInputEmail1'>Email address</label><br></br>
@@ -61,7 +69,7 @@ const submitHandle = (e) => {
                   placeholder='Enter email'
                 />
               </div>
-              <div className='form-group'>
+              <div className='form-group text-success'>
               <br></br>
                 <br></br>
                 <label htmlFor='exampleInputPassword1'>Password</label><br></br>
@@ -76,7 +84,7 @@ const submitHandle = (e) => {
                 />
               </div>
               <button type='submit' className='btn btn-info m-auto'>
-                Register
+                Update
               </button>
               <br></br>
                 <br></br>
@@ -88,4 +96,4 @@ const submitHandle = (e) => {
   );
 };
 
-export { RegisterUser} ;
+export default UserProfile;

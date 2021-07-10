@@ -36,9 +36,9 @@ const Navbar = () => {
         <div className='collapse navbar-collapse' id='navbarColor01'>
           <ul className='navbar-nav m-auto'>
             <li className='nav-item active'>
-              <a className='nav-link' to='/'>
+              <Link className='nav-link' to='/'>
                 Home <span className='sr-only'>(current)</span>
-              </a>
+              </Link>
             </li>
             {!userData ? (
               <>
@@ -55,6 +55,7 @@ const Navbar = () => {
               </>
             ) : (
               <>
+             
                 <li className='nav-item'>
                   <Link className='nav-link' to='/books'>
                     Books
@@ -67,8 +68,23 @@ const Navbar = () => {
                 </li>
 
                 <li className='nav-item'>
-                  <Link className='nav-link' to='/users'>
+                  <Link className='nav-link' to='/userslist'>
                     Users
+                  </Link>
+                </li>
+                <li className='nav-item'>
+                  <Link className='nav-link' to='/issuelist'>
+                    Issue a Book
+                  </Link>
+                </li>
+                {/* <li className='nav-item'>
+                  <Link className='nav-link' to='/myissuedbook'>
+                    My Issued Book
+                  </Link>
+                </li>
+                <li className='nav-item'>
+                  <Link className='nav-link' to='/profile'  >
+                    Profile
                   </Link>
                 </li>
                 <li className='nav-item'>
@@ -78,7 +94,26 @@ const Navbar = () => {
                     to='/login'>
                     Logout
                   </a>
-                </li>
+                </li> */}
+                <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Hi, {userData.data.name}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+  <Link classNam="dropdown-item" to='/myissuedbook'>
+                    My Issued Book
+  </Link>
+  <Link className="dropdown-item" to='/profile'  >
+    Profile
+  </Link>
+  <Link
+    onClick={logoutHandler}
+    className="dropdown-item"
+    to='/login'>
+    Logout
+  </Link>                  
+  </div>
+</div>
               </>
             )}
           </ul>

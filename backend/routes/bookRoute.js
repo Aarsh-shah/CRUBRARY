@@ -7,7 +7,7 @@ const bookRoute=express.Router();
 
 
 //Create A book
-bookRoute.post('/',authMiddleware, asyncHandler(async (req,res) =>{
+bookRoute.post('/', asyncHandler(async (req,res) =>{
 const book = await Book.create(req.body);
 if(book)
 {

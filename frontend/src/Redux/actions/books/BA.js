@@ -17,9 +17,10 @@ const createBookAct = bookData => {
       });
 
       const config = {
-        'Content-Type': 'application/json',
+       headers: { 'Content-Type': 'application/json',
+      },
       };
-      const { data } = await axios.post('/api/books', bookData, config);
+      const  data  = await axios.post('/api/books', bookData, config);
 
       dispatch({
         type: CREATE_BOOK_SUCCESS,

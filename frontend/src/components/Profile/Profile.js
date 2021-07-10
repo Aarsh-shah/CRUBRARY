@@ -1,10 +1,23 @@
 import React, { useEffect } from 'react';
 import './Profile.css';
-import pic from '../../assets/img/bookpic.jpg';
-
+import pic from '../../assets/img/minato.jfif';
+import { userProfileAct } from '../../Redux/actions/users/userActions';
 import { Link } from 'react-router-dom';
+import { useDispatch,useSelector } from 'react-redux';
 
 const Profile = ({ history }) => {
+  const state =useSelector(state=>state);
+  const {currentUser,userProf}=state;
+  
+  const { userData,loading,error }=currentUser;
+  const token = userData ?userData.data.token: null;
+  const dispatch=useDispatch();
+  useEffect(() => {
+    dispatch(userProfileAct(token));
+  },[dispatch]);
+  // console.log(userProf.userProfile);
+  const emptyObj= [];
+  const bookObjs = userProf.userProfile? userProf.userProfile.books : emptyObj;
   return (
     <>
       <div className='container'>
@@ -13,9 +26,9 @@ const Profile = ({ history }) => {
             <div className='card m-auto ' style={{ width: '50%' }}>
               <img src={pic} className='card-img-top' alt='...' />
               <div className='card-body'>
-                <h5 className='card-title'>email</h5>
-                <p className='card-text'>name</p>
-                <Link to='/user-update' className='btn btn-primary'>
+                <h3 className='card-title'>{userData?.data.email}</h3>
+                <p className='card-text'>{userData?.data.name}</p>
+                <Link to='/userupdate' className='btn btn-primary'>
                   Update your profile
                 </Link>
               </div>
@@ -23,25 +36,34 @@ const Profile = ({ history }) => {
           </div>
         </div>
       </div>
+      <h2> My Books</h2>
       {/* Table */}
-      <table className='table table-hover'>
+      {loading ? <h1>Loading Plz Wait...</h1> :
+        <table className='table table-hover'>
         <thead>
           <tr>
             <th scope='col'>Author</th>
-            <th scope='col'>Book Name</th>
-            <th scope='col'>Delete</th>
-            <th scope='col'>Update</th>
+            <th scope='col'>Book Category</th>
+            <th scope='col'>Title</th>
+
           </tr>
         </thead>
         <tbody>
+         {bookObjs.map(bookObj => (
           <tr className='table-dark'>
-            <th scope='row'>author</th>
-            <td>Title</td>
-            <td>Delete</td>
-            <td>Update</td>
-          </tr>
+
+<th scope='row'>{bookObj.author}</th>
+<th scope='row'>{bookObj.category}</th>
+<td>{bookObj.title}</td>
+
+</tr>
+
+         ) ) }  
+          
         </tbody>
       </table>
+
+}
     </>
   );
 };
